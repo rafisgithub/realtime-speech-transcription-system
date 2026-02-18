@@ -9,7 +9,6 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         seed_users()
         seed_system_setting()
-        seed_social_media()
         seed_system_color()
 
 

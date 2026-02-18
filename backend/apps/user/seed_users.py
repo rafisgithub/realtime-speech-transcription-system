@@ -5,8 +5,8 @@ from apps.user.models import User, UserProfile
 def seed_users():
     user_data = [
         {
-            "email": "rafi.cse.ahmed@gmail.com",
-            "full_name": "Rafi Ahmed",
+            "email": "cse@alphanet.com",
+            "full_name": "Abu Sufian Haider",
             "avatar": "avatars/1.jpg",
             "password": "12345678",
             "is_staff": True,
@@ -17,30 +17,16 @@ def seed_users():
         {
             "email": "admin@admin.com",
             "full_name": "Admin User",
-            "avatar": "avatars/1.jpg",
+            "avatar": "avatars/2.jpg",
             "password": "12345678",
             "is_staff": True,
             "is_superuser": True,
             "term_and_condition_accepted": True,
           
         },
-
         {
-            "email": "customer@customer.com",
-            "full_name": "Customer User",
-            "role": "customer",
-            "avatar": "avatars/2.jpg",
-            "password": "12345678",
-            "is_staff": False,
-            "is_superuser": False,
-            "is_vendor": False,
-            "term_and_condition_accepted": True,
-           
-        },
-        {
-            "email": "agency@agency.com",
-            "full_name": "Agency User",
-            "role": "agency",
+            "email": "jobs@alpha.net.bd",
+            "full_name": "Alpha Net",
             "avatar": "avatars/3.jpg",
             "password": "12345678",
             "is_staff": False,
