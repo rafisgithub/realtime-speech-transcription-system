@@ -77,20 +77,6 @@ def get_unfold_settings():
                             ),
                         },
                         {
-                            "title": _("Social Media"),
-                            "icon": "share",
-                            "link": reverse_lazy(
-                                "admin:system_setting_socialmedia_changelist"
-                            ),
-                        },
-                        {
-                            "title": _("SMTP Settings"),
-                            "icon": "email",
-                            "link": reverse_lazy(
-                                "admin:system_setting_smtpsetting_changelist"
-                            ),
-                        },
-                        {
                             "title": _("System Color"),
                             "icon": "palette",
                             "link": reverse_lazy(

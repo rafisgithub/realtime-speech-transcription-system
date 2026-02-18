@@ -4,8 +4,19 @@ from apps.user.models import User, UserProfile
 
 def seed_users():
     user_data = [
+
         {
-            "email": "cse@alphanet.com",
+            "email": "rafi.cse.ahmed@gmail.com",
+            "full_name": "Rafi Ahmed",
+            "avatar": "avatars/2.png",
+            "password": "12345678",
+            "is_staff": True,
+            "is_superuser": True,
+            "term_and_condition_accepted": True,
+          
+        },
+        {
+            "email": "ceo@alphanet.com",
             "full_name": "Abu Sufian Haider",
             "avatar": "avatars/1.jpg",
             "password": "12345678",
@@ -35,27 +46,7 @@ def seed_users():
             "term_and_condition_accepted": True,
             
         },
-        {
-            "email": "customer1@customer.com",
-            "full_name": "User Three",
-            "avatar": "avatars/4.jpg",
-            "password": "12345678",
-            "is_staff": False,
-            "is_superuser": False,
-            "term_and_condition_accepted": True,
-           
-        },
-        {
-            "email": "customer2@customer.com",
-            "full_name": "User Four",
-            "avatar": "avatars/5.jpg",
-            "password": "12345678",
-            "is_staff": False,
-            "is_superuser": False,
-            "term_and_condition_accepted": True,
-           
-        }
-
+       
     ]
 
     for user in user_data:
