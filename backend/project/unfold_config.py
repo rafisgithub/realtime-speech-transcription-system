@@ -14,10 +14,10 @@ def get_unfold_settings():
         "SITE_SUBHEADER": lambda request: get_about_system().title,
         "SITE_URL": "/",
         "SITE_ICON": {
-            "light": lambda request: get_about_system().logo.url,  # light mode
-            "dark": lambda request: get_about_system().logo.url,  # dark mode
+            "light": lambda request: get_about_system().logo.url,  
+            "dark": lambda request: get_about_system().logo.url,  
         },
-        "SITE_SYMBOL": "speed",  # symbol from icon set
+        "SITE_SYMBOL": "speed",  
         "SITE_FAVICONS": [
             {
             "rel": "icon",
@@ -28,18 +28,18 @@ def get_unfold_settings():
         ],
         "DASHBOARD_CALLBACK": "apps.dashboard.views.dashboard_callback",
 
-        "SHOW_HISTORY": True,  # show/hide "History" button, default: True
-        "SHOW_VIEW_ON_SITE": True,  # show/hide "View on site" button, default: True
-        "SHOW_BACK_BUTTON": True,  # show/hide "Back" button on changeform in header, default: False
-        # "THEME": "light",
+        "SHOW_HISTORY": True,  
+        "SHOW_VIEW_ON_SITE": True,  
+        "SHOW_BACK_BUTTON": True,  
+        "THEME": "dark",
         "LOGIN": {
             "image": lambda request: static("sample/login-bg.jpg"),
             "redirect_after": lambda request: reverse_lazy("admin:APP_MODEL_changelist"),
         },
         "BORDER_RADIUS": "6px",
         "SIDEBAR": {
-            "show_search": True,  # Search in applications and models names
-            "show_all_applications": True,  # Dropdown with all applications and models
+            "show_search": True, 
+            "show_all_applications": True,  
             "navigation": [
                 {
                     "items": [
@@ -53,8 +53,8 @@ def get_unfold_settings():
                 },
                 {
                     "title": _("User Management"),
-                    "separator": True,  # Top border
-                    "collapsible": True,  # Collapsible group of links
+                    "separator": True, 
+                    "collapsible": True,  
                     "items": [
                         {
                             "title": _("Users"),
@@ -77,20 +77,6 @@ def get_unfold_settings():
                             ),
                         },
                         {
-                            "title": _("Social Media"),
-                            "icon": "share",
-                            "link": reverse_lazy(
-                                "admin:system_setting_socialmedia_changelist"
-                            ),
-                        },
-                        {
-                            "title": _("SMTP Settings"),
-                            "icon": "email",
-                            "link": reverse_lazy(
-                                "admin:system_setting_smtpsetting_changelist"
-                            ),
-                        },
-                        {
                             "title": _("System Color"),
                             "icon": "palette",
                             "link": reverse_lazy(
@@ -99,42 +85,9 @@ def get_unfold_settings():
                         }
                     ],
                 },
-                {
-                    "title": _("Page Management"),
-                    "separator": True,
-                    "collapsible": True,
-                    "items": [
-                        {
-                            "title": _("Pages"),
-                            "icon": "pages",
-                            "link": reverse_lazy("admin:cms_page_changelist"),
-                        },
-                    ],
-                },
-                {
-                    "title": _("CMS Management"),
-                    "separator": True,
-                    "collapsible": True,
-                    "items": [
-                        {
-                            "title": _("CMS"),
-                            "icon": "auto_stories",
-                            "link": reverse_lazy("admin:cms_cms_changelist"),
-                        },
-                    ],
-                },
-                {
-                    "title": _("FAQ Management"),
-                    "separator": True,
-                    "collapsible": True,
-                    "items": [
-                        {
-                            "title": _("FAQs"),
-                            "icon": "help",
-                            "link": reverse_lazy("admin:cms_faq_changelist"),
-                        },
-                    ],
-                }
+               
+               
+               
             ],
         },
     }

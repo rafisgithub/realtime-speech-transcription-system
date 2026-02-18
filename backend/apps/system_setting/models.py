@@ -22,36 +22,6 @@ class DynamicPages(models.Model):
     def __str__(self):
         return self.title
 
-class SMTPSetting(models.Model):
-    ENCRYPTION_CHOICES = [
-        ('none', 'None'),
-        ('tls', 'TLS'),
-        ('ssl', 'SSL'),
-    ]
-
-    host = models.CharField(max_length=255)
-    port = models.PositiveIntegerField()
-    username = models.EmailField()
-    password = models.CharField(max_length=255)
-    encryption = models.CharField(max_length=10, choices=ENCRYPTION_CHOICES, default='tls')
-    sender_name = models.CharField(max_length=255, blank=True, null=True)
-    sender_email = models.EmailField()
-    is_active = models.BooleanField(default=True)
-
-    def __str__(self):
-        return f"{self.host} ({self.sender_email})"
-    
-    def get_email_backend_settings(self):
-        return {
-            'EMAIL_HOST': self.host,
-            'EMAIL_PORT': self.port,
-            'EMAIL_HOST_USER': self.username,
-            'EMAIL_HOST_PASSWORD': self.password,
-            'EMAIL_USE_TLS': self.encryption == 'tls',
-            'EMAIL_USE_SSL': self.encryption == 'ssl',
-        }
-
-
 class SocialMedia(models.Model):
     name = models.CharField(max_length=255)
     url = models.URLField()

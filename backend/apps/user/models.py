@@ -10,14 +10,10 @@ from django.contrib.auth.hashers import check_password
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    class Roles(models.TextChoices):
-        ADMIN = 'admin', _('Admin')
-        USER = 'user', _('User')
-
+    
     email = models.EmailField(_("email address"), unique=True)
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     full_name = models.CharField(max_length=255, blank=True, null=True)
-    role = models.CharField(max_length=20, choices=Roles.choices, default=Roles.USER)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
@@ -37,14 +33,17 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile')
-    phone = models.CharField(max_length=20, blank=True, null=True)
-    dob = models.DateField(blank=True, null=True)
+    phone = models.CharField(max_length=255, blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
+    city = models.CharField(max_length=255, blank=True, null=True)
+    state = models.CharField(max_length=255, blank=True, null=True)
+    zip_code = models.CharField(max_length=255, blank=True, null=True)
+    country = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.user.full_name if self.user.full_name else self.user.email
-
+        return self.user.email
 
 PURPOSE = (
     ('create_account', 'Create Account'),

@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from apps.system_setting.seed_data import seed_system_color, seed_system_setting, seed_social_media
+from apps.system_setting.seed_data import seed_system_color, seed_system_setting
 from apps.user.seed_users import seed_users
 
 
@@ -9,7 +9,6 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         seed_users()
         seed_system_setting()
-        seed_social_media()
         seed_system_color()
 
 
