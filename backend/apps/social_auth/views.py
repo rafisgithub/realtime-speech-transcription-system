@@ -13,7 +13,7 @@ from apps.user.serializers import CustomRefreshToken
 from apps.user.utils import get_user_agent_hash, create_hybrid_auth_response
 
 class GoogleAuthView(APIView):
-    permission_classes = [AllowAny]  
+    permission_classes = []  
 
     def post(self, request):
         access_token = request.data.get('access_token')
@@ -48,6 +48,7 @@ class GoogleAuthView(APIView):
             user = User.objects.create_user(
                 email=email,
                 full_name=name,
+                term_and_condition_accepted = True,
                 password=random_password
             )
             if picture:
@@ -78,7 +79,6 @@ class GoogleAuthView(APIView):
         user_data = {
             'id': user.id,
             'email': user.email,
-            'role': user.role,
         }
         
         # Create hybrid response (supports both web and mobile)

@@ -38,13 +38,11 @@ if DEBUG:
         'https://localhost',
         'https://127.0.0.1',
         'http://127.0.0.1:5173',
-        'http://127.0.0.1:5173',
-        'http://localhost:5173',
-        'https://localhost:5173',
         'https://*.ngrok-free.app',
         'https://*.ngrok-free.dev', 
         "http://172.16.200.94:8000",
         "http://172.16.200.94:9000",
+        "http://127.0.0.1:8000",
         
     ]
 
@@ -69,13 +67,12 @@ else:
         'https://localhost',
         'https://127.0.0.1',
         'http://127.0.0.1:5173',
-        'http://127.0.0.1:5173',
         'http://localhost:5173',
-        'https://localhost:5173',
         'https://*.ngrok-free.app',
         'https://*.ngrok-free.dev', 
         "http://172.16.200.94:8000",
         "http://172.16.200.94:9000",
+        "http://127.0.0.1:8000",
         
     ]
 
