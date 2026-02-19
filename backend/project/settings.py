@@ -112,7 +112,8 @@ INSTALLED_APPS = [
     # internal apps
     "apps.seeders",
     "apps.user",
-    "apps.system_setting",
+    "apps.system_setting",  
+    "apps.transcription",
 
 ]
 

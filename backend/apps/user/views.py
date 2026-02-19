@@ -248,16 +248,8 @@ class GetProfileView(APIView):
 
 
 class CookieTokenRefreshView(TokenRefreshView):
-    """
-    Hybrid Token Refresh View
-    
-    Supports both Web and Mobile clients:
-    - Web: Reads refresh token from HttpOnly cookie, returns new tokens in cookies
-    - Mobile: Reads refresh token from request body, returns new tokens in response body
-    """
     
     def post(self, request, *args, **kwargs):
-        # Inject refresh token from cookie into data if not present (for web clients)
         data = request.data.copy()
         if 'refresh' not in data and 'refresh_token' in request.COOKIES:
             data['refresh'] = request.COOKIES['refresh_token']
@@ -271,12 +263,11 @@ class CookieTokenRefreshView(TokenRefreshView):
 
         token_data = serializer.validated_data
         
-        # Use hybrid response utility
         from .utils import create_hybrid_refresh_response
         
         tokens = {
             'access': token_data['access'],
-            'refresh': token_data.get('refresh')  # May not exist if rotation is disabled
+            'refresh': token_data.get('refresh')
         }
         
         response = create_hybrid_refresh_response(
@@ -290,29 +281,34 @@ class CookieTokenRefreshView(TokenRefreshView):
 
 
 class CookieTokenVerifyView(TokenVerifyView):
-    """
-    Hybrid Token Verify View
-    
-    Supports both Web and Mobile clients:
-    - Web: Reads access token from HttpOnly cookie
-    - Mobile: Reads token from request body
-    """
+
     
     def post(self, request, *args, **kwargs):
-        # Inject access token from cookie into data if not present (for web clients)
-        data = request.data.copy()
-        if 'token' not in data and 'access_token' in request.COOKIES:
-            data['token'] = request.COOKIES['access_token']
-        
-        serializer = self.get_serializer(data=data)
 
+        data = request.data.copy()
+        
+        # Get token from request or cookie
+        token = data.get('token') or request.COOKIES.get('access_token')
+        if not token:
+            return error(message="No token provided.", errors={}, status_code=status.HTTP_401_UNAUTHORIZED)
+        
+        data['token'] = token
+        
+        # Validate token
+        serializer = self.get_serializer(data=data)
         try:
             serializer.is_valid(raise_exception=True)
         except TokenError as e:
             raise InvalidToken(e.args[0])
         
-        return success(data=[], message="Token is valid.", status_code=status.HTTP_200_OK)
+        # Get user from token
+        jwt_auth = JWTAuthentication()
+        validated_token = jwt_auth.get_validated_token(token)
+        user = jwt_auth.get_user(validated_token)
 
-
-
-
+        user_info = {
+            'id': user.id,
+            'email': user.email,
+        }
+        
+        return success(data=user_info, message="Token is valid.", status_code=status.HTTP_200_OK)

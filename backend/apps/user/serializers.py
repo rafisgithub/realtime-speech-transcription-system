@@ -21,7 +21,6 @@ class CustomRefreshToken(RefreshToken):
         token = super().for_user(user)
 
         token["user_id"] = user.id
-        token["role"] = user.role
         token["uah"] = user_agent_hash
 
         if remember_me:
@@ -344,7 +343,6 @@ class VerifyOTPSerializer(serializers.Serializer):
             'user': {
                 'id': user.id,
                 'email': user.email,
-                'role': user.role,
             },
             'refresh': str(refresh),
             'access': str(refresh.access_token),
