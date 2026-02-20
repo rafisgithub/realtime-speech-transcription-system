@@ -61,9 +61,6 @@ export const HistorySidebar: React.FC<HistorySidebarProps> = ({
                                 }`}
                         >
                             <span className="block truncate">{session.title || "Untitled Session"}</span>
-                            <span className="block text-[10px] opacity-40">
-                                {new Date(session.created_at).toLocaleDateString()}
-                            </span>
                         </button>
                     ))
                 )}
