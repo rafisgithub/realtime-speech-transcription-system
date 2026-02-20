@@ -38,13 +38,11 @@ if DEBUG:
         'https://localhost',
         'https://127.0.0.1',
         'http://127.0.0.1:5173',
-        'http://127.0.0.1:5173',
-        'http://localhost:5173',
-        'https://localhost:5173',
         'https://*.ngrok-free.app',
         'https://*.ngrok-free.dev', 
         "http://172.16.200.94:8000",
         "http://172.16.200.94:9000",
+        "http://127.0.0.1:8000",
         
     ]
 
@@ -69,13 +67,12 @@ else:
         'https://localhost',
         'https://127.0.0.1',
         'http://127.0.0.1:5173',
-        'http://127.0.0.1:5173',
         'http://localhost:5173',
-        'https://localhost:5173',
         'https://*.ngrok-free.app',
         'https://*.ngrok-free.dev', 
         "http://172.16.200.94:8000",
         "http://172.16.200.94:9000",
+        "http://127.0.0.1:8000",
         
     ]
 
@@ -107,7 +104,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "import_export",
     "corsheaders",
-    # "channels",
+    "channels",
 
     # internal apps
     "apps.seeders",
@@ -149,20 +146,20 @@ TEMPLATES = [
     },
 ]
 
-# ASGI_APPLICATION = 'project.asgi.application'
-WSGI_APPLICATION = "project.wsgi.application"
+ASGI_APPLICATION = 'project.asgi.application'
+# WSGI_APPLICATION = "project.wsgi.application"
 
 
 # Channels configuration
 
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#         "CONFIG": {
-#             "hosts": [(os.environ.get("REDIS_HOST", "127.0.0.1"), int(os.environ.get("REDIS_PORT", 6379)))],
-#         },
-#     },
-# }
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(os.environ.get("REDIS_HOST", "127.0.0.1"), int(os.environ.get("REDIS_PORT", 6379)))],
+        },
+    },
+}
 
 #master user
 
@@ -326,4 +323,5 @@ INTERNAL_IPS = [
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 from project import unfold_config
 UNFOLD = unfold_config.get_unfold_settings()
-
+# Vosk Settings
+VOSK_MODEL_PATH = os.path.join(BASE_DIR, "models", "vosk-model-small-en-us-0.15")

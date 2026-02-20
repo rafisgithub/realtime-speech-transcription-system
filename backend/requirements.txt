@@ -2,6 +2,8 @@ asgiref==3.9.1
 cachetools==6.2.2
 certifi==2025.10.5
 cffi==2.0.0
+channels==4.3.2
+channels_redis==4.3.0
 charset-normalizer==3.4.4
 click==8.3.1
 colorama==0.4.6
@@ -20,6 +22,7 @@ gunicorn==23.0.0
 h11==0.16.0
 httplib2==0.31.0
 idna==3.11
+msgpack==1.1.2
 oauthlib==3.3.1
 packaging==25.0
 pillow==11.3.0
@@ -33,13 +36,18 @@ PyJWT==2.10.1
 pyparsing==3.2.5
 python-decouple==3.8
 python3-openid==3.2.0
+redis==7.2.0
 requests==2.32.5
 requests-oauthlib==2.0.0
 rsa==4.9.1
 sqlparse==0.5.3
+srt==3.5.3
 tablib==3.8.0
+tqdm==4.67.3
 tzdata==2025.2
 uritemplate==4.2.0
 urllib3==2.5.0
 uvicorn==0.34.0
+vosk==0.3.45
+websockets==16.0
 whitenoise==6.9.0
