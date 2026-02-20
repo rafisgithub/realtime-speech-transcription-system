@@ -241,8 +241,6 @@ class GetProfileView(APIView):
             'user_id': user.id,
             'email': user.email,
             'full_name': user.full_name,
-            'phone': profile.phone,
-            'dob': profile.dob,
         }
         return success(data=data, message="Profile get successfully.", status_code=status.HTTP_200_OK)
 
