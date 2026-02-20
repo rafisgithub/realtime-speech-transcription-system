@@ -1,9 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://127.0.0.1:8000";
+import api from "@/lib/api";
 
 interface User {
     user_id: number;
@@ -15,11 +13,6 @@ interface User {
 export const useAuth = () => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
-
-    const api = axios.create({
-        baseURL: API_BASE_URL,
-        withCredentials: true,
-    });
 
     const fetchProfile = async () => {
         try {
