@@ -8,7 +8,7 @@ import { LoginModal } from "@/components/LoginModal";
 import { HistorySidebar } from "@/components/HistorySidebar";
 
 export default function Home() {
-  const { user, loginWithGoogle } = useAuth();
+  const { user, loading, loginWithGoogle } = useAuth();
   const {
     transcript,
     partialTranscript,
@@ -73,9 +73,17 @@ export default function Home() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#0d0d0d]">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
+      </div>
+    );
+  }
+
   return (
     <div className="flex min-h-screen bg-[#0d0d0d] text-[#ececec] selection:bg-blue-500/30">
-      {!user && <LoginModal onLogin={loginWithGoogle} />}
+      {!user && <LoginModal onLogin={(token) => loginWithGoogle(token)} />}
 
       <HistorySidebar
         sessions={sessions}

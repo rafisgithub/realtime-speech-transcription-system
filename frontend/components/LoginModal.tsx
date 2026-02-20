@@ -1,12 +1,21 @@
 "use client";
 
 import React from "react";
+import { useGoogleLogin } from "@react-oauth/google";
 
 interface LoginModalProps {
-    onLogin: () => void;
+    onLogin: (token: string) => void;
 }
 
 export const LoginModal: React.FC<LoginModalProps> = ({ onLogin }) => {
+    const login = useGoogleLogin({
+        onSuccess: (tokenResponse) => {
+            onLogin(tokenResponse.access_token);
+        },
+        onError: () => {
+            console.error("Login Failed");
+        },
+    });
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md animate-in fade-in duration-500">
             <div className="w-full max-w-sm p-8 bg-zinc-900 border border-white/10 rounded-3xl shadow-2xl space-y-8 animate-in zoom-in-95 slide-in-from-bottom-4 duration-500">
@@ -31,7 +40,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ onLogin }) => {
                 </div>
 
                 <button
-                    onClick={onLogin}
+                    onClick={() => login()}
                     className="w-full flex items-center justify-center gap-3 px-4 py-3.5 bg-white hover:bg-zinc-200 text-black font-semibold rounded-2xl transition-all active:scale-[0.98] group"
                 >
                     <svg className="w-5 h-5 transition-transform group-hover:scale-110" viewBox="0 0 24 24">
