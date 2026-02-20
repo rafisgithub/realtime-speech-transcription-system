@@ -20,22 +20,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ onLogin }) => {
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md animate-in fade-in duration-500">
             <div className="w-full max-w-sm p-8 bg-zinc-900 border border-white/10 rounded-3xl shadow-2xl space-y-8 animate-in zoom-in-95 slide-in-from-bottom-4 duration-500">
                 <div className="text-center space-y-3">
-                    <div className="mx-auto h-12 w-12 rounded-2xl bg-blue-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
-                        <svg
-                            className="w-7 h-7 text-white"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09a2.03 2.03 0 00-.15-1.947m1.613-2.158a1.914 1.914 0 012.907 1.015l.07.351a2.01 2.01 0 01-1.259 2.227m1.259-2.227A2.01 2.01 0 0011 19.34s-.485.495-1.332.495c-.847 0-1.332-.495-1.332-.495a2.01 2.01 0 011.259-2.227m1.259 2.227l.07.351a1.914 1.914 0 01-2.907-1.015m2.907 1.015L11 19.34m-3.44 2.04a2.01 2.01 0 011.259-2.227m-1.259 2.227c-.847 0-1.332-.495-1.332-.495a2.01 2.01 0 011.259-2.227"
-                            />
-                        </svg>
-                    </div>
-                    <h2 className="text-2xl font-bold tracking-tight text-white">Welcome back</h2>
+                    <h2 className="text-2xl font-bold tracking-tight text-white">Alpha Net</h2>
                     <p className="text-zinc-400 text-sm">Sign in to start transcribing your ideas.</p>
                 </div>
 

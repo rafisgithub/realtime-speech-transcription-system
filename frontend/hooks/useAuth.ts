@@ -6,10 +6,10 @@ import axios from "axios";
 const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://127.0.0.1:8000";
 
 interface User {
-    id: number;
+    user_id: number;
     email: string;
+    full_name: string;
     avatar?: string;
-    name?: string;
 }
 
 export const useAuth = () => {
@@ -21,11 +21,22 @@ export const useAuth = () => {
         withCredentials: true,
     });
 
+    const fetchProfile = async () => {
+        try {
+            const response = await api.get("/api/get-profile/");
+            if (response.data.success) {
+                setUser(response.data.data);
+            }
+        } catch (error) {
+            console.error("Failed to fetch profile", error);
+        }
+    };
+
     const checkAuth = useCallback(async () => {
         try {
             const response = await api.post("/api/token/verify/");
             if (response.data.success) {
-                setUser(response.data.data);
+                await fetchProfile();
             } else {
                 setUser(null);
             }
@@ -34,9 +45,7 @@ export const useAuth = () => {
             try {
                 const refreshResponse = await api.post("/api/token/refresh/");
                 if (refreshResponse.data.success) {
-                    // Refetch user data after refresh
-                    const retryResponse = await api.post("/api/token/verify/");
-                    setUser(retryResponse.data.data);
+                    await fetchProfile();
                 } else {
                     setUser(null);
                 }
@@ -58,8 +67,8 @@ export const useAuth = () => {
                 access_token: token,
             });
             if (response.data.success) {
-                // The structure requested was data: { user: { ... } }
-                setUser(response.data.data.user);
+                // Fetch full profile after successful Google auth
+                await fetchProfile();
                 return response.data;
             }
         } catch (error) {
@@ -75,6 +84,8 @@ export const useAuth = () => {
             console.error("Logout failed", error);
         } finally {
             setUser(null);
+            // Full page reload to clear any remaining state and redirect
+            window.location.href = "/";
         }
     };
 
