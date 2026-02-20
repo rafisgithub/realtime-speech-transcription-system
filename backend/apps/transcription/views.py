@@ -27,17 +27,17 @@ class AllSessionAPIView(APIView):
     def get(self, request):
         sessions = TranscriptionSession.objects.filter(user=request.user).order_by('-created_at')
         serializer = TranscriptionSessionSerializer(sessions, many=True)
-        return Response(serializer.data)
+        return success(data=serializer.data, message="Sessions fetched successfully.", status_code=status.HTTP_200_OK)
 
 class SessionHistoryAPIView(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [CookieJWTAuthentication]
 
-    def get(self, request, pk):
+    def get(self, request, session_id):
         try:
-            session = TranscriptionSession.objects.get(id=pk, user=request.user)
+            session = TranscriptionSession.objects.get(id=session_id, user=request.user)
             history = session.history.all().order_by('start_time')
             serializer = TranscriptionSessionHistorySerializer(history, many=True)
-            return Response(serializer.data)
+            return success(data=serializer.data, message="Session history fetched successfully.", status_code=status.HTTP_200_OK)
         except TranscriptionSession.DoesNotExist:
-            return Response({"error": "Session not found"}, status=status.HTTP_404_NOT_FOUND)
+            return error(message="Session not found", status_code=status.HTTP_404_NOT_FOUND)
