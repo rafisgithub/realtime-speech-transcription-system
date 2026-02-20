@@ -27,7 +27,7 @@ class AllSessionAPIView(APIView):
     def get(self, request):
         sessions = TranscriptionSession.objects.filter(user=request.user).order_by('-created_at')
         serializer = TranscriptionSessionSerializer(sessions, many=True)
-        return success(data=serializer.data, message="Sessions fetched successfully.", status_code=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class SessionHistoryAPIView(APIView):
     permission_classes = [IsAuthenticated]

@@ -6,6 +6,7 @@ import { useTranscription } from "@/hooks/useTranscription";
 import { useAudioProcessor } from "@/hooks/useAudioProcessor";
 import { LoginModal } from "@/components/LoginModal";
 import { HistorySidebar } from "@/components/HistorySidebar";
+import api from "@/lib/api";
 
 export default function Home() {
   const { user, loading, loginWithGoogle } = useAuth();
@@ -32,11 +33,8 @@ export default function Home() {
 
   const fetchSessions = async () => {
     try {
-      // Mocked for UI demonstration
-      setSessions([
-        { id: "1", title: "Meeting with Client", created_at: new Date().toISOString() },
-        { id: "2", title: "Lecture Notes", created_at: new Date().toISOString() },
-      ]);
+      const response = await api.get("/api/all-session/");
+      setSessions(response.data);
     } catch (err) {
       console.error("Failed to fetch sessions", err);
     }
@@ -47,29 +45,59 @@ export default function Home() {
       stopRecording();
       disconnect();
     } else {
-      setTranscript("");
-      connect(() => {
-        startRecording((pcmData: any) => {
-          sendAudio(pcmData);
+      let currentSessionId = activeSessionId;
+      if (!currentSessionId) {
+        const response = await api.post("/api/start-session/");
+        if (response.data.success) {
+          const newSession = response.data.data;
+          setSessions((prev) => [newSession, ...prev]);
+          currentSessionId = newSession.id;
+          setActiveSessionId(currentSessionId);
+        }
+      }
+
+      if (currentSessionId) {
+        setTranscript("");
+        connect(currentSessionId, () => {
+          startRecording((pcmData: any) => {
+            sendAudio(pcmData);
+          });
         });
-      });
+      }
     }
   };
 
-  const handleNewSession = () => {
-    setActiveSessionId(null);
-    setTranscript("");
-    if (isRecording) {
-      stopRecording();
-      disconnect();
+  const handleNewSession = async () => {
+    try {
+      const response = await api.post("/api/start-session/");
+      if (response.data.success) {
+        const newSession = response.data.data;
+        setSessions((prev) => [newSession, ...prev]);
+        setActiveSessionId(newSession.id);
+        setTranscript("");
+        if (isRecording) {
+          stopRecording();
+          disconnect();
+        }
+      }
+    } catch (err) {
+      console.error("Failed to start new session", err);
     }
   };
 
-  const handleSelectSession = (id: string) => {
+  const handleSelectSession = async (id: string) => {
     setActiveSessionId(id);
-    const selected = sessions.find((s) => s.id === id);
-    if (selected) {
-      setTranscript("This is a previously saved transcript for " + selected.title);
+    setTranscript("");
+    try {
+      const response = await api.get(`/api/session-history/${id}/`);
+      if (response.data.success) {
+        const history = response.data.data;
+        const fullTranscript = history.map((h: any) => h.transcript).join(" ");
+        setTranscript(fullTranscript || "No transcript content yet.");
+      }
+    } catch (err) {
+      console.error("Failed to fetch session history", err);
+      setTranscript("Failed to load transcript.");
     }
   };
 
@@ -109,7 +137,7 @@ export default function Home() {
             {user && (
               <div className="flex items-center gap-2 px-2 py-1 rounded-full border border-white/5 bg-white/5">
                 {user.avatar && <img src={user.avatar} className="w-5 h-5 rounded-full" alt="" />}
-                <span className="text-xs font-medium text-zinc-300 hidden sm:inline">{user.name?.split(' ')[0]}</span>
+                <span className="text-xs font-medium text-zinc-300 hidden sm:inline">{user.full_name?.split(' ')[0]}</span>
               </div>
             )}
           </div>
